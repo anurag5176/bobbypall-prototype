@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
+/* Remove duplicate font imports since we're using Next.js font optimization */
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap'); */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -78,22 +79,22 @@
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-mono: 'Montserrat', monospace;
 
-  /* Enhanced Spacing System */
-  --spacing-section: 10rem;
-  --spacing-element: 4rem;
-  --spacing-component: 2rem;
+  /* Enhanced Spacing System - Mobile Responsive */
+  --spacing-section: clamp(4rem, 8vw, 10rem);
+  --spacing-element: clamp(2rem, 4vw, 4rem);
+  --spacing-component: clamp(1rem, 2vw, 2rem);
 
-  /* Refined Type Scale - Much smaller and aesthetic */
-  --type-scale-xs: 0.75rem;
-  --type-scale-sm: 0.875rem;
-  --type-scale-base: 1rem;
-  --type-scale-lg: 1.125rem;
-  --type-scale-xl: 1.25rem;
-  --type-scale-2xl: 1.5rem;
-  --type-scale-3xl: 1.875rem;
-  --type-scale-4xl: 2.25rem;
-  --type-scale-5xl: 3rem;
-  --type-scale-6xl: 6rem;
+  /* Refined Type Scale - Mobile Responsive */
+  --type-scale-xs: clamp(0.75rem, 1vw, 0.875rem);
+  --type-scale-sm: clamp(0.875rem, 1.2vw, 1rem);
+  --type-scale-base: clamp(1rem, 1.5vw, 1.125rem);
+  --type-scale-lg: clamp(1.125rem, 2vw, 1.25rem);
+  --type-scale-xl: clamp(1.25rem, 2.5vw, 1.5rem);
+  --type-scale-2xl: clamp(1.5rem, 3vw, 1.875rem);
+  --type-scale-3xl: clamp(1.875rem, 4vw, 2.25rem);
+  --type-scale-4xl: clamp(2.25rem, 5vw, 3rem);
+  --type-scale-5xl: clamp(3rem, 6vw, 4rem);
+  --type-scale-6xl: clamp(4rem, 8vw, 6rem);
 
   /* Color Variables */
   --color-background: var(--background);
@@ -143,6 +144,15 @@
     @apply font-sans antialiased bg-background text-foreground;
     background: #0a0a0a;
     color: #ffffff;
+    /* Improve performance */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mobile menu overlay styles */
+  body.menu-open {
+    overflow: hidden;
   }
 
   /* Sophisticated Typography Utilities */
@@ -171,7 +181,7 @@
     will-change: transform;
   }
 
-  /* Enhanced Spacing System */
+  /* Enhanced Spacing System - Mobile Responsive */
   .section-spacing {
     padding-top: var(--spacing-section);
     padding-bottom: var(--spacing-section);
@@ -185,7 +195,7 @@
     margin-bottom: var(--spacing-component);
   }
 
-  /* Sophisticated Typography Hierarchy */
+  /* Sophisticated Typography Hierarchy - Mobile Responsive */
   .text-display {
     font-family: var(--font-serif);
     font-size: var(--type-scale-4xl);
@@ -312,6 +322,8 @@
   img {
     max-width: 100%;
     height: auto;
+    /* Improve image loading performance */
+    loading: lazy;
   }
 
   .image-container {
@@ -339,7 +351,7 @@
 
   /* Sophisticated Button Styles */
   .btn-primary {
-    @apply px-8 py-4 bg-white text-black font-medium rounded-lg transition-all duration-300;
+    @apply px-6 py-3 md:px-8 md:py-4 bg-white text-black font-medium rounded-lg transition-all duration-300;
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
@@ -350,7 +362,7 @@
   }
 
   .btn-secondary {
-    @apply px-8 py-4 border border-white/30 text-white font-medium rounded-lg transition-all duration-300;
+    @apply px-6 py-3 md:px-8 md:py-4 border border-white/30 text-white font-medium rounded-lg transition-all duration-300;
   }
 
   .btn-secondary:hover {
@@ -358,15 +370,16 @@
     border-color: white;
   }
 
-  /* Enhanced Grid Systems */
+  /* Enhanced Grid Systems - Mobile Responsive */
   .grid-masonry {
     columns: 1;
-    column-gap: 2rem;
+    column-gap: 1rem;
   }
 
   @media (min-width: 768px) {
     .grid-masonry {
       columns: 2;
+      column-gap: 2rem;
     }
   }
 
@@ -384,7 +397,13 @@
 
   .grid-masonry > * {
     break-inside: avoid;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid-masonry > * {
+      margin-bottom: 2rem;
+    }
   }
 
   /* Sophisticated Card Styles */
@@ -400,5 +419,42 @@
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    .section-spacing {
+      padding-top: clamp(3rem, 6vw, 6rem);
+      padding-bottom: clamp(3rem, 6vw, 6rem);
+    }
+    
+    .text-display {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+    }
+    
+    .text-headline {
+      font-size: clamp(1.75rem, 4vw, 2rem);
+    }
+    
+    .text-title {
+      font-size: clamp(1.5rem, 3vw, 1.75rem);
+    }
+    
+    .card-metallic {
+      margin: 0 1rem;
+    }
+  }
+
+  /* Touch device optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .card-metallic:hover {
+      transform: none;
+    }
+    
+    .image-container:hover .image-overlay {
+      opacity: 0.3;
+    }
   }
 }

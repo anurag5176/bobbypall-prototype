@@ -3,6 +3,7 @@
 import AestheticHeader from "@/components/aesthetic-header"
 import HeroCarousel from "@/components/hero-carousel"
 import { useState, useEffect } from "react"
+import Image from "next/image"
 
 // Counter component for animated statistics
 function AnimatedCounter({ end, duration = 2000 }: { end: number; duration?: number }) {
@@ -42,18 +43,18 @@ export default function HomePage() {
       <HeroCarousel />
 
       {/* About Me Section */}
-      <section className="section-spacing px-6">
+      <section className="section-spacing px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-10">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
               <div>
-                <h2 className="text-headline font-serif text-white mb-8 leading-tight">
+                <h2 className="text-headline font-serif text-white mb-6 sm:mb-8 leading-tight">
                   Through the lens of Bobby Pall
                 </h2>
-                <p className="text-body-large text-white/80 leading-relaxed mb-8">
+                <p className="text-body-large text-white/80 leading-relaxed mb-6 sm:mb-8">
                   Bobby Pall is an acclaimed East African photographer renowned for his dedication to cross-cultural and documentary photography. His work celebrates cultural diversity and emphasizes the preservation of history and traditions across African societies.
                 </p>
-                <p className="text-body text-white/70 leading-relaxed mb-8">
+                <p className="text-body text-white/70 leading-relaxed mb-6 sm:mb-8">
                   With a masterful narrative style, Bobby captures real-life experiences, establishing himself as a prominent figure in visual storytelling. Every photograph tells a story that extends beyond the frame, inviting viewers to engage with deeper meanings and authentic human experiences.
                 </p>
                 <p className="text-body text-white/70 leading-relaxed">
@@ -64,14 +65,17 @@ export default function HomePage() {
 
             <div className="relative">
               <div className="image-container rounded-2xl overflow-hidden">
-                <img
+                <Image
                   src="/placeholder.svg?height=700&width=800&text=Bobby+Pall+Portrait"
                   alt="Bobby Pall - East African Photographer"
-                  className="w-full h-[500px] object-cover"
+                  width={800}
+                  height={700}
+                  className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
+                  priority
                 />
                 <div className="image-overlay"></div>
               </div>
-              <div className="absolute -bottom-8 -left-8 card-metallic p-8 rounded-2xl max-w-xs">
+              <div className="absolute -bottom-4 sm:-bottom-6 lg:-bottom-8 -left-4 sm:-left-6 lg:-left-8 card-metallic p-4 sm:p-6 lg:p-8 rounded-2xl max-w-[200px] sm:max-w-xs">
                 <p className="text-caption text-white/60 mb-2">Based in</p>
                 <p className="text-body font-medium text-white">Nairobi, Kenya</p>
               </div>
@@ -81,41 +85,41 @@ export default function HomePage() {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-20 px-6 bg-white/5">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white/5">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-headline font-serif text-white mb-6">Impact & Experience</h2>
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="text-headline font-serif text-white mb-4 sm:mb-6">Impact & Experience</h2>
             <p className="text-body-large text-white/80 max-w-3xl mx-auto leading-relaxed">
               Numbers that tell the story of dedication, passion, and the countless moments captured through the lens.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
             <div className="text-center">
-              <div className="text-display font-serif text-white mb-4">
+              <div className="text-display font-serif text-white mb-3 sm:mb-4">
                 <AnimatedCounter end={140} />
               </div>
-              <h3 className="text-title font-serif text-white mb-4">Finished Photosessions</h3>
+              <h3 className="text-title font-serif text-white mb-3 sm:mb-4">Finished Photosessions</h3>
               <p className="text-body text-white/70 leading-relaxed">
                 Professional photography sessions completed with excellence and attention to detail.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="text-display font-serif text-white mb-4">
+              <div className="text-display font-serif text-white mb-3 sm:mb-4">
                 <AnimatedCounter end={105} />
               </div>
-              <h3 className="text-title font-serif text-white mb-4">Studio Sessions</h3>
+              <h3 className="text-title font-serif text-white mb-3 sm:mb-4">Studio Sessions</h3>
               <p className="text-body text-white/70 leading-relaxed">
                 Controlled environment sessions that bring out the best in every subject.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="text-display font-serif text-white mb-4">
+              <div className="text-display font-serif text-white mb-3 sm:mb-4">
                 <AnimatedCounter end={230} />
               </div>
-              <h3 className="text-title font-serif text-white mb-4">Happy Clients</h3>
+              <h3 className="text-title font-serif text-white mb-3 sm:mb-4">Happy Clients</h3>
               <p className="text-body text-white/70 leading-relaxed">
                 Satisfied clients who trust Bobby to capture their most precious moments.
               </p>
@@ -125,15 +129,15 @@ export default function HomePage() {
       </section>
 
       {/* Philosophy Section */}
-      <section className="section-spacing px-6">
+      <section className="section-spacing px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-10">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
               <div>
-                <h2 className="text-headline font-serif text-white mb-8 leading-tight">
+                <h2 className="text-headline font-serif text-white mb-6 sm:mb-8 leading-tight">
                   Through the lens of truth
                 </h2>
-                <p className="text-body-large text-white/80 leading-relaxed mb-8">
+                <p className="text-body-large text-white/80 leading-relaxed mb-6 sm:mb-8">
                   Photography is not about capturing what you see—it's about revealing what others feel. Every frame I
                   create carries the weight of stories untold, the beauty of moments unnoticed, and the power of
                   perspectives unchanged.
@@ -146,10 +150,12 @@ export default function HomePage() {
 
             <div className="relative">
               <div className="image-container rounded-2xl overflow-hidden">
-                <img
+                <Image
                   src="/placeholder.svg?height=700&width=800&text=Portrait+Series"
                   alt="Bobby Pall at work"
-                  className="w-full h-[500px] object-cover"
+                  width={800}
+                  height={700}
+                  className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
                 />
                 <div className="image-overlay"></div>
               </div>
@@ -159,16 +165,16 @@ export default function HomePage() {
       </section>
 
       {/* Signature Style Showcase */}
-      <section className="py-20 px-6 bg-white/5">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white/5">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-headline font-serif text-white mb-6">Signature Style</h2>
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="text-headline font-serif text-white mb-4 sm:mb-6">Signature Style</h2>
             <p className="text-body-large text-white/80 max-w-3xl mx-auto leading-relaxed">
               A distinctive approach that combines technical mastery with emotional depth, creating images that resonate beyond the visual.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
             {[
               {
                 title: "Emotional Authenticity",
@@ -187,15 +193,17 @@ export default function HomePage() {
               }
             ].map((item, index) => (
               <div key={index} className="text-center group">
-                <div className="image-container rounded-2xl overflow-hidden mb-8 group-hover:scale-105 transition-transform duration-700">
-                  <img
+                <div className="image-container rounded-2xl overflow-hidden mb-6 sm:mb-8 group-hover:scale-105 transition-transform duration-700">
+                  <Image
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-80 object-cover"
+                    width={400}
+                    height={400}
+                    className="w-full h-64 sm:h-80 object-cover"
                   />
                   <div className="image-overlay"></div>
                 </div>
-                <h3 className="text-title font-serif text-white mb-4 group-hover:text-white/90 transition-colors">
+                <h3 className="text-title font-serif text-white mb-3 sm:mb-4 group-hover:text-white/90 transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-body text-white/70 leading-relaxed">{item.description}</p>
@@ -206,16 +214,16 @@ export default function HomePage() {
       </section>
 
       {/* Featured Work Preview */}
-      <section className="section-spacing px-6">
+      <section className="section-spacing px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-headline font-serif text-white mb-6">Selected Works</h2>
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="text-headline font-serif text-white mb-4 sm:mb-6">Selected Works</h2>
             <p className="text-body-large text-white/80 max-w-3xl mx-auto leading-relaxed">
               A glimpse into the stories that define us, the moments that move us, and the beauty that surrounds us.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 src: "/placeholder.svg?height=600&width=500&text=Glam+Photography",
@@ -237,15 +245,17 @@ export default function HomePage() {
               },
             ].map((work, index) => (
               <div key={index} className="group cursor-pointer">
-                <div className="image-container rounded-2xl overflow-hidden mb-6">
-                  <img
+                <div className="image-container rounded-2xl overflow-hidden mb-4 sm:mb-6">
+                  <Image
                     src={work.src}
                     alt={work.title}
-                    className="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-105"
+                    width={500}
+                    height={600}
+                    className="w-full h-64 sm:h-80 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="image-overlay"></div>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <h3 className="text-title font-serif text-white group-hover:text-white/90 transition-colors">
                     {work.title}
                   </h3>
@@ -256,7 +266,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-12 sm:mt-16">
             <a
               href="/gallery"
               className="btn-primary inline-flex items-center gap-3 group"
@@ -269,27 +279,29 @@ export default function HomePage() {
       </section>
 
       {/* Behind the Lens */}
-      <section className="py-20 px-6 bg-white/5">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white/5">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
             <div className="relative order-2 lg:order-1">
               <div className="image-container rounded-2xl overflow-hidden">
-                <img
+                <Image
                   src="/placeholder.svg?height=600&width=700&text=Behind+the+Lens"
                   alt="Bobby Pall in his studio"
-                  className="w-full h-[500px] object-cover"
+                  width={700}
+                  height={600}
+                  className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
                 />
                 <div className="image-overlay"></div>
               </div>
             </div>
 
-            <div className="space-y-10 order-1 lg:order-2">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10 order-1 lg:order-2">
               <div>
-                <h2 className="text-headline font-serif text-white mb-8 leading-tight">Behind the lens</h2>
-                <p className="text-body-large text-white/80 leading-relaxed mb-8">
+                <h2 className="text-headline font-serif text-white mb-6 sm:mb-8 leading-tight">Behind the lens</h2>
+                <p className="text-body-large text-white/80 leading-relaxed mb-6 sm:mb-8">
                   My approach is built on patience, respect, and deep cultural understanding. I don't just take photographs—I build relationships, earn trust, and create spaces where authentic moments can unfold naturally.
                 </p>
-                <p className="text-body text-white/70 leading-relaxed mb-8">
+                <p className="text-body text-white/70 leading-relaxed mb-6 sm:mb-8">
                   Every subject I photograph becomes a collaborator in storytelling. Their comfort, their truth, their dignity—these are the foundations of powerful imagery.
                 </p>
                 <p className="text-body text-white/70 leading-relaxed">
@@ -302,9 +314,9 @@ export default function HomePage() {
       </section>
 
       {/* Vision Statement */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto text-center">
-          <blockquote className="text-display font-serif text-white leading-relaxed mb-10">
+          <blockquote className="text-display font-serif text-white leading-relaxed mb-8 sm:mb-10">
             "I don't just take photographs. I collect moments, preserve memories, and share the stories that make us
             human."
           </blockquote>
@@ -313,14 +325,14 @@ export default function HomePage() {
       </section>
 
       {/* Call to Action */}
-      <section className="section-spacing px-6">
+      <section className="section-spacing px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-headline font-serif text-white mb-8">Ready to tell your story?</h2>
-          <p className="text-body-large text-white/80 mb-12 leading-relaxed">
+          <h2 className="text-headline font-serif text-white mb-6 sm:mb-8">Ready to tell your story?</h2>
+          <p className="text-body-large text-white/80 mb-8 sm:mb-12 leading-relaxed">
             Every project begins with a conversation. Let's discuss how we can bring your vision to life through
             authentic, powerful photography that captures the essence of your narrative.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
             <a
               href="/gallery"
               className="btn-primary"

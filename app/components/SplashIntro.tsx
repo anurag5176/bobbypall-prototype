@@ -26,11 +26,14 @@ export default function SplashIntro({
   const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  console.log('SplashIntro component mounted');
-
   const shouldReduceMotion = useMemo(() => {
     if (typeof window === 'undefined') return false;
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  const isMobile = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768;
   }, []);
 
   useEffect(() => {
@@ -39,22 +42,22 @@ export default function SplashIntro({
     const params = new URLSearchParams(window.location.search);
     const force = params.has('intro');
     
-    // Always show on homepage, unless user prefers reduced motion
-    if (shouldReduceMotion) {
-      console.log('Skipping splash intro - reduced motion preference');
+    // Skip splash on mobile for better performance, unless user prefers reduced motion
+    if (shouldReduceMotion || isMobile) {
+      console.log('Skipping splash intro - reduced motion preference or mobile device');
       setShow(false);
       setWebsiteVisible(true);
       setWebsiteRendering(true);
       return;
     }
 
-    console.log('Showing splash intro on homepage');
+    console.log('Showing splash intro on desktop');
     setShow(true);
     setWebsiteVisible(false); // Hide website during splash
     setWebsiteRendering(false); // Don't render website yet
     setVideoLoaded(false); // Reset video loaded state
     
-    // Start rendering website 1 second after video starts (for reveal effect)
+    // Start rendering website 1 second after video starts
     const renderTimer = setTimeout(() => {
       console.log('Starting website render for reveal effect');
       setWebsiteRendering(true);
@@ -70,7 +73,7 @@ export default function SplashIntro({
       window.clearTimeout(renderTimer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, isMobile]);
 
   const handleFinish = () => {
     // Trigger slide-up
@@ -139,6 +142,7 @@ export default function SplashIntro({
                 src={poster} 
                 alt="Video poster" 
                 className="w-full h-full object-cover"
+                loading="eager"
               />
             </div>
 
@@ -152,7 +156,7 @@ export default function SplashIntro({
               autoPlay
               muted
               playsInline
-              preload="auto"
+              preload="metadata"
               controls={false}
               onCanPlay={onCanPlay}
               onEnded={handleFinish}
