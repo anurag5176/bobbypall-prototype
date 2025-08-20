@@ -54,7 +54,7 @@ export default function SplashIntro({
     setWebsiteRendering(false); // Don't render website yet
     setVideoLoaded(false); // Reset video loaded state
     
-    // Start rendering website 1 second after video starts
+    // Start rendering website 1 second after video starts (for reveal effect)
     const renderTimer = setTimeout(() => {
       console.log('Starting website render for reveal effect');
       setWebsiteRendering(true);

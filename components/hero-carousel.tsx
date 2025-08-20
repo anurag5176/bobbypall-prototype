@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useWebsiteVisibility } from "@/app/contexts/WebsiteVisibilityContext"
 
 const heroImages = [
   {
@@ -38,15 +39,19 @@ const heroImages = [
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
+  const { isVisible } = useWebsiteVisibility()
 
   useEffect(() => {
-    setIsLoaded(true)
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length)
-    }, 8000)
+    // Only start the carousel animation after the website is visible (video has finished)
+    if (isVisible) {
+      setIsLoaded(true)
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % heroImages.length)
+      }, 8000)
 
-    return () => clearInterval(interval)
-  }, [])
+      return () => clearInterval(interval)
+    }
+  }, [isVisible])
 
   const goToNext = () => {
     setCurrentSlide((prev) => (prev + 1) % heroImages.length)
