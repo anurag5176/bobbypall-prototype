@@ -1,6 +1,6 @@
 "use client"
 
-import AestheticHeader from "@/components/aesthetic-header"
+import NavigationBar from "@/components/navigation-bar"
 import HeroCarousel from "@/components/hero-carousel"
 import { useState, useEffect } from "react"
 import Image from "next/image"
@@ -39,7 +39,7 @@ function AnimatedCounter({ end, duration = 2000 }: { end: number; duration?: num
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-black">
-      <AestheticHeader />
+      <NavigationBar />
       <HeroCarousel />
 
       {/* About Me Section */}

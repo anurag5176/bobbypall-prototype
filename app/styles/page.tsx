@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import AestheticHeader from "@/components/aesthetic-header"
+import NavigationBar from "@/components/navigation-bar"
 import { ArrowRight, Camera, Users, Globe, Building, Palette, Flower } from "lucide-react"
 
 const photographyStyles = [
@@ -64,12 +64,12 @@ const photographyStyles = [
     description:
       "The successful model-photographer collaboration extends beyond the visible. It's about capturing the unseen – the fleeting expressions, the subtle gestures, and the emotions that breathe life into the composition.",
     icon: Building,
-    heroImage: "/placeholder.svg?height=700&width=600&text=Corporate+Photography",
+    heroImage: "/corporate.png",
     galleryImages: [
-      "/placeholder.svg?height=500&width=400&text=Corporate+1",
-      "/placeholder.svg?height=600&width=400&text=Corporate+2",
-      "/placeholder.svg?height=500&width=400&text=Corporate+3",
-      "/placeholder.svg?height=600&width=400&text=Corporate+4",
+      "/corporate.png",
+      "/corporate.png",
+      "/corporate.png",
+      "/corporate.png",
     ],
     services: ["Executive Portraits", "Team Photography", "Event Coverage", "Brand Imagery"],
     approach: "Professional, polished photography that enhances corporate identity",
@@ -120,7 +120,7 @@ export default function StylesPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <AestheticHeader />
+      <NavigationBar />
 
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-6">

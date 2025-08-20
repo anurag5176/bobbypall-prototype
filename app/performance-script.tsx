@@ -12,7 +12,7 @@ export default function PerformanceScript() {
       <link rel="preload" href="/Logo.jpg" as="image" type="image/jpeg" />
       
       {/* Preload first hero image */}
-      <link rel="preload" href="/fashion.png" as="image" type="image/png" />
+      <link rel="preload" href="/corporate.png" as="image" type="image/png" />
       
       {/* Performance monitoring */}
       <script

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import AestheticHeader from "@/components/aesthetic-header"
+import NavigationBar from "@/components/navigation-bar"
 import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react"
 
 const photographyStyles = [
@@ -205,7 +205,7 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <AestheticHeader />
+      <NavigationBar />
 
       {/* Hero Section */}
       <section className="pt-24 pb-20 px-6">

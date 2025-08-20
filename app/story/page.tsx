@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import AestheticHeader from "@/components/aesthetic-header"
+import NavigationBar from "@/components/navigation-bar"
 
 export default function StoryPage() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -12,7 +12,7 @@ export default function StoryPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <AestheticHeader />
+      <NavigationBar />
 
       {/* Hero Section */}
       <section className="pt-24 pb-20 px-6">
