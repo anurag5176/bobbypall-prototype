@@ -231,6 +231,55 @@
     margin-bottom: var(--spacing-component);
   }
 
+  /* Responsive Layout Classes */
+  .desktop-layout {
+    /* Desktop-specific styles */
+    font-size: 16px;
+  }
+  
+  .mobile-layout {
+    /* Mobile-specific styles */
+    font-size: 14px;
+  }
+  
+  /* Desktop site toggle button */
+  .desktop-site-toggle {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .desktop-site-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  
+  /* Responsive breakpoints for desktop site preference */
+  @media (min-width: 1024px) {
+    .desktop-layout {
+      /* Force desktop layout on large screens */
+      min-width: 1024px;
+    }
+  }
+  
+  @media (max-width: 1023px) {
+    .mobile-layout {
+      /* Mobile layout on smaller screens */
+      width: 100%;
+      max-width: 100vw;
+    }
+  }
+
   /* Sophisticated Typography Hierarchy - Mobile Responsive */
   .text-display {
     font-family: var(--font-serif);

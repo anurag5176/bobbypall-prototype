@@ -5,7 +5,7 @@ import "./globals.css"
 import SplashIntro from "./components/SplashIntro"
 import PerformanceScript from "./performance-script"
 import Footer from "@/components/footer"
-import DesktopToggle from "@/components/desktop-toggle"
+import ResponsiveLayout, { DesktopSiteToggle } from "@/components/responsive-layout"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -55,13 +55,15 @@ export default function RootLayout({
         {/* Splash intro overlay */}
         <SplashIntro>
           {/* Your actual site underneath */}
-          <div className="flex flex-col min-h-screen">
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-            <DesktopToggle />
-          </div>
+          <ResponsiveLayout>
+            <div className="flex flex-col min-h-screen">
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ResponsiveLayout>
+          <DesktopSiteToggle />
         </SplashIntro>
       </body>
     </html>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
-import { shouldUseMobileOptimizations } from '@/lib/mobile-detection';
+import { shouldUseMobileOptimizations, shouldUseDesktopLayout } from '@/lib/mobile-detection';
 
 const DEFAULT_IMAGES = [
   {
@@ -145,7 +145,7 @@ export default function DomeGallery({
   openedImageBorderRadius?: string;
   grayscale?: boolean;
 }) {
-  // Mobile detection
+  // Mobile detection that respects desktop site preference
   const isMobile = useMemo(() => {
     return shouldUseMobileOptimizations();
   }, []);
