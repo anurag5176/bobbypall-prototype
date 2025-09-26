@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import NavigationBar from "@/components/navigation-bar"
-import { Maximize2, Minimize2 } from "lucide-react"
+import { ExternalLink, Maximize2, Minimize2 } from "lucide-react"
 
 export default function EGalleryPage() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -16,6 +16,9 @@ export default function EGalleryPage() {
     setIsFullscreen(!isFullscreen)
   }
 
+  const openInNewTab = () => {
+    window.open("https://miracle-outcomes-884111.framer.app/?embed=1", "_blank")
+  }
 
   return (
     <div className="bg-black">
@@ -52,6 +55,14 @@ export default function EGalleryPage() {
                   Fullscreen
                 </>
               )}
+            </button>
+            
+            <button
+              onClick={openInNewTab}
+              className="flex items-center gap-2 px-6 py-3 bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 rounded-full"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Open in New Tab
             </button>
           </div>
         </div>
