@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import NavigationBar from "@/components/navigation-bar"
 import DomeGallery from "@/components/dome-gallery"
-import { ExternalLink, Maximize2, Minimize2 } from "lucide-react"
+import { Maximize2, Minimize2 } from "lucide-react"
 
 export default function EGallery2Page() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -17,9 +17,6 @@ export default function EGallery2Page() {
     setIsFullscreen(!isFullscreen)
   }
 
-  const openInNewTab = () => {
-    window.open("https://miracle-outcomes-884111.framer.app/?embed=1", "_blank")
-  }
 
   return (
     <div className="bg-black">
@@ -57,21 +54,13 @@ export default function EGallery2Page() {
                 </>
               )}
             </button>
-            
-            <button
-              onClick={openInNewTab}
-              className="flex items-center gap-2 px-6 py-3 bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 rounded-full"
-            >
-              <ExternalLink className="w-4 h-4" />
-              Open in New Tab
-            </button>
           </div>
         </div>
       </section>
 
       {/* Dome Gallery Section */}
       <section className={`pb-20 px-6 transition-all duration-500 ${isFullscreen ? "fixed inset-0 z-40 bg-black" : ""}`}>
-        <div className={`${isFullscreen ? "h-screen w-full" : "max-w-7xl mx-auto h-[80vh] min-h-[400px] md:min-h-[600px]"}`}>
+        <div className={`${isFullscreen ? "h-screen w-full" : "max-w-7xl mx-auto h-[85vh] min-h-[500px] md:min-h-[600px]"}`}>
           <div className={`relative ${isFullscreen ? "h-full" : "h-full rounded-2xl overflow-hidden"}`}>
             <DomeGallery
               images={[

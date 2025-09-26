@@ -155,10 +155,10 @@ export default function DomeGallery({
     if (!isMobile) return {};
     
     return {
-      fit: 0.4,
-      minRadius: 200,
-      maxRadius: 300,
-      segments: 25,
+      fit: 0.6,
+      minRadius: 350,
+      maxRadius: 450,
+      segments: 30,
       dragSensitivity: 35,
       enlargeTransitionMs: 300,
       openedImageWidth: '90vw',
@@ -359,6 +359,16 @@ export default function DomeGallery({
     {
       onDragStart: ({ event }) => {
         if (focusedElRef.current) return;
+        
+        // Check if the event is on an image element
+        const target = event.target as HTMLElement;
+        const isImageElement = target.closest('.item__image');
+        
+        // If clicking/touching an image, don't start drag gesture
+        if (isImageElement) {
+          return;
+        }
+        
         stopInertia();
 
         pointerTypeRef.current = (event as any).pointerType || 'mouse';
@@ -591,6 +601,17 @@ export default function DomeGallery({
   const openItemFromElement = (el: HTMLElement) => {
     if (!el || cancelTapRef.current) return;
     if (openingRef.current) return;
+    
+    // Additional mobile check
+    if (isMobile && performance.now() - lastDragEndAt.current < 100) {
+      return;
+    }
+    
+    // Desktop check - ensure we're not in the middle of a drag
+    if (!isMobile && draggingRef.current) {
+      return;
+    }
+    
     openingRef.current = true;
     openStartedAtRef.current = performance.now();
     lockScroll();
@@ -775,8 +796,8 @@ export default function DomeGallery({
     /* Mobile Optimizations */
     @media (max-width: 768px) {
       .sphere-root {
-        --radius: 280px;
-        --viewer-pad: 16px;
+        --radius: 380px;
+        --viewer-pad: 20px;
       }
       
       .stage {
@@ -788,8 +809,8 @@ export default function DomeGallery({
       }
       
       .item__image {
-        inset: 6px;
-        border-radius: 8px;
+        inset: 8px;
+        border-radius: 10px;
       }
       
       .viewer-frame {
@@ -802,8 +823,8 @@ export default function DomeGallery({
     
     @media (max-width: 480px) {
       .sphere-root {
-        --radius: 220px;
-        --viewer-pad: 12px;
+        --radius: 320px;
+        --viewer-pad: 16px;
       }
       
       .stage {
@@ -811,8 +832,8 @@ export default function DomeGallery({
       }
       
       .item__image {
-        inset: 4px;
-        border-radius: 6px;
+        inset: 6px;
+        border-radius: 8px;
       }
     }
     
@@ -845,6 +866,20 @@ export default function DomeGallery({
       pointer-events: auto;
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
+      touch-action: manipulation;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+      text-decoration: none;
+      outline: none;
+    }
+    
+    .item__image:focus {
+      outline: none;
+    }
+    
+    .item__image:hover {
+      text-decoration: none;
     }
     .item__image--reference {
       position: absolute;
@@ -905,17 +940,53 @@ export default function DomeGallery({
                     tabIndex={0}
                     aria-label={it.alt || 'Open image'}
                     onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      e.nativeEvent.stopImmediatePropagation();
+                      
+                      // Desktop-specific handling
+                      if (!isMobile) {
+                        // Reset any drag state for desktop clicks
+                        draggingRef.current = false;
+                        cancelTapRef.current = false;
+                      }
+                      
                       if (performance.now() - lastDragEndAt.current < 80) return;
                       openItemFromElement(e.currentTarget);
                     }}
+                    onMouseDown={e => {
+                      e.stopPropagation();
+                      e.nativeEvent.stopImmediatePropagation();
+                    }}
+                    onMouseUp={e => {
+                      e.stopPropagation();
+                      e.nativeEvent.stopImmediatePropagation();
+                    }}
+                    onTouchStart={e => {
+                      e.stopPropagation();
+                      // Store the touch start time for tap detection
+                      (e.currentTarget as any).touchStartTime = Date.now();
+                    }}
                     onTouchEnd={e => {
-                      if (performance.now() - lastDragEndAt.current < 80) return;
-                      openItemFromElement(e.currentTarget);
+                      e.preventDefault();
+                      e.stopPropagation();
+                      
+                      // Check if this was a quick tap (less than 200ms)
+                      const touchStartTime = (e.currentTarget as any).touchStartTime;
+                      const touchDuration = Date.now() - (touchStartTime || 0);
+                      
+                      if (touchDuration < 200 && performance.now() - lastDragEndAt.current < 80) {
+                        openItemFromElement(e.currentTarget);
+                      }
+                    }}
+                    onTouchMove={e => {
+                      e.stopPropagation();
                     }}
                     style={{
                       inset: '10px',
                       borderRadius: `var(--tile-radius, ${effectiveSettings.imageBorderRadius})`,
-                      backfaceVisibility: 'hidden'
+                      backfaceVisibility: 'hidden',
+                      touchAction: 'manipulation'
                     }}
                   >
                     <img
