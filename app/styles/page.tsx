@@ -13,12 +13,12 @@ const photographyStyles = [
     description:
       "The successful model-photographer collaboration extends beyond the visible. It's about capturing the unseen – the fleeting expressions, the subtle gestures, and the emotions that breathe life into the composition.",
     icon: Camera,
-    heroImage: "/placeholder.svg?height=800&width=600&text=Glam+Photography",
+    heroImage: "/GLAM/4.png",
     galleryImages: [
-      "/placeholder.svg?height=500&width=400&text=Glam+1",
-      "/placeholder.svg?height=600&width=400&text=Glam+2",
-      "/placeholder.svg?height=500&width=400&text=Glam+3",
-      "/placeholder.svg?height=600&width=400&text=Glam+4",
+      "/GLAM/1.png",
+      "/GLAM/2.png",
+      "/GLAM/3.png",
+      "/GLAM/5.png",
     ],
     services: ["Model Portraits", "Fashion Shoots", "Beauty Photography", "Editorial Work"],
     approach: "Collaborative approach that brings out inner confidence and beauty",
@@ -30,12 +30,12 @@ const photographyStyles = [
     description:
       "The successful model-photographer collaboration extends beyond the visible. It's about capturing the unseen – the fleeting expressions, the subtle gestures, and the emotions that breathe life into the composition.",
     icon: Users,
-    heroImage: "/placeholder.svg?height=700&width=600&text=Family+Photography",
+    heroImage: "/Family/3.png",
     galleryImages: [
-      "/placeholder.svg?height=500&width=400&text=Family+1",
-      "/placeholder.svg?height=600&width=400&text=Family+2",
-      "/placeholder.svg?height=500&width=400&text=Family+3",
-      "/placeholder.svg?height=600&width=400&text=Family+4",
+      "/Family/1.png",
+      "/Family/2.png",
+      "/Family/4.png",
+      "/Family/5.png",
     ],
     services: ["Family Portraits", "Generational Photos", "Milestone Celebrations", "Candid Moments"],
     approach: "Natural, relaxed sessions that capture authentic family connections",
@@ -47,12 +47,12 @@ const photographyStyles = [
     description:
       "The successful model-photographer collaboration extends beyond the visible. It's about capturing the unseen – the fleeting expressions, the subtle gestures, and the emotions that breathe life into the composition.",
     icon: Globe,
-    heroImage: "/placeholder.svg?height=600&width=900&text=Travel+Photography",
+    heroImage: "/Travel/2.png",
     galleryImages: [
-      "/placeholder.svg?height=400&width=600&text=Travel+1",
-      "/placeholder.svg?height=400&width=600&text=Travel+2",
-      "/placeholder.svg?height=400&width=600&text=Travel+3",
-      "/placeholder.svg?height=400&width=600&text=Travel+4",
+      "/Travel/1.png",
+      "/Travel/3.png",
+      "/Travel/4.png",
+      "/Travel/5.png",
     ],
     services: ["Destination Photography", "Cultural Documentation", "Tourism Campaigns", "Travel Stories"],
     approach: "Immersive storytelling that captures the essence of places and cultures",
@@ -81,12 +81,12 @@ const photographyStyles = [
     description:
       "The successful model-photographer collaboration extends beyond the visible. It's about capturing the unseen – the fleeting expressions, the subtle gestures, and the emotions that breathe life into the composition.",
     icon: Palette,
-    heroImage: "/placeholder.svg?height=900&width=600&text=Fashion+Photography",
+    heroImage: "/fashion.png",
     galleryImages: [
-      "/placeholder.svg?height=800&width=400&text=Fashion+1",
-      "/placeholder.svg?height=700&width=400&text=Fashion+2",
-      "/placeholder.svg?height=900&width=400&text=Fashion+3",
-      "/placeholder.svg?height=600&width=400&text=Fashion+4",
+      "/fashion.png",
+      "/fashion.png",
+      "/fashion.png",
+      "/fashion.png",
     ],
     services: ["Editorial Fashion", "Brand Campaigns", "Designer Portfolios", "Creative Direction"],
     approach: "Collaborative storytelling through style and substance",
@@ -98,12 +98,12 @@ const photographyStyles = [
     description:
       "The successful model-photographer collaboration extends beyond the visible. It's about capturing the unseen – the fleeting expressions, the subtle gestures, and the emotions that breathe life into the composition.",
     icon: Flower,
-    heroImage: "/placeholder.svg?height=600&width=800&text=Flower+Photography",
+    heroImage: "/flower.png",
     galleryImages: [
-      "/placeholder.svg?height=500&width=400&text=Flowers+1",
-      "/placeholder.svg?height=600&width=400&text=Flowers+2",
-      "/placeholder.svg?height=500&width=400&text=Flowers+3",
-      "/placeholder.svg?height=600&width=400&text=Flowers+4",
+      "/flower.png",
+      "/flower.png",
+      "/flower.png",
+      "/flower.png",
     ],
     services: ["Botanical Photography", "Nature Studies", "Artistic Compositions", "Fine Art Prints"],
     approach: "Patient observation that reveals the hidden beauty in nature",
@@ -119,11 +119,11 @@ export default function StylesPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="bg-black bg-black">
       <NavigationBar />
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6">
+      <section className="pt-40 pb-16 px-6">
         <div className="max-w-4xl mx-auto">
           <div className={`text-center transition-all duration-1000 ${isLoaded ? "slide-up" : "opacity-0"}`}>
             <h1 className="text-display font-serif text-white mb-8">Our Styles</h1>

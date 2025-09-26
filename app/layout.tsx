@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Montserrat } from "next/font/google"
 import "./globals.css"
 import SplashIntro from "./components/SplashIntro"
 import PerformanceScript from "./performance-script"
+import Footer from "@/components/footer"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -53,7 +54,12 @@ export default function RootLayout({
         {/* Splash intro overlay */}
         <SplashIntro>
           {/* Your actual site underneath */}
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </SplashIntro>
       </body>
     </html>

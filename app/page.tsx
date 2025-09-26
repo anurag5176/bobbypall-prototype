@@ -38,7 +38,7 @@ function AnimatedCounter({ end, duration = 2000 }: { end: number; duration?: num
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-black">
+    <div className="bg-black">
       <NavigationBar />
       <HeroCarousel />
 
@@ -66,7 +66,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="image-container rounded-2xl overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=700&width=800&text=Bobby+Pall+Portrait"
+                  src="/HOMEPAGE.png"
                   alt="Bobby Pall - East African Photographer"
                   width={800}
                   height={700}
@@ -151,7 +151,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="image-container rounded-2xl overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=700&width=800&text=Portrait+Series"
+                  src="/GLAM/3.png"
                   alt="Bobby Pall at work"
                   width={800}
                   height={700}
@@ -179,17 +179,17 @@ export default function HomePage() {
               {
                 title: "Emotional Authenticity",
                 description: "Every photograph captures genuine emotion, not staged moments. I wait for the truth to reveal itself.",
-                image: "/placeholder.svg?height=400&width=400&text=Emotion"
+                image: "/GLAM/1.png"
               },
               {
                 title: "Professional Excellence",
                 description: "My work celebrates the richness of African culture while challenging stereotypes and misconceptions.",
-                image: "/placeholder.svg?height=400&width=400&text=Excellence"
+                image: "/CORPORATE/1.png"
               },
               {
                 title: "Narrative Power",
                 description: "Each image tells a story that extends beyond the frame, inviting viewers to engage with deeper meanings.",
-                image: "/placeholder.svg?height=400&width=400&text=Story"
+                image: "/Family/1.png"
               }
             ].map((item, index) => (
               <div key={index} className="text-center group">
@@ -226,19 +226,19 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
-                src: "/placeholder.svg?height=600&width=500&text=Glam+Photography",
+                src: "/GLAM/2.png",
                 title: "Glam Photography",
                 description: "Capturing the unseen beauty",
                 year: "2023"
               },
               {
-                src: "/placeholder.svg?height=600&width=500&text=Family+Photography",
+                src: "/Family/2.png",
                 title: "Family Photography",
                 description: "Preserving precious moments",
                 year: "2023"
               },
               {
-                src: "/placeholder.svg?height=600&width=500&text=Travel+Photography",
+                src: "/Travel/1.png",
                 title: "Travel Brochure",
                 description: "Stories from around the world",
                 year: "2023"
@@ -285,7 +285,7 @@ export default function HomePage() {
             <div className="relative order-2 lg:order-1">
               <div className="image-container rounded-2xl overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=600&width=700&text=Behind+the+Lens"
+                  src="/CORPORATE/2.png"
                   alt="Bobby Pall in his studio"
                   width={700}
                   height={600}
@@ -348,6 +348,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

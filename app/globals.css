@@ -406,13 +406,14 @@
     border-color: white;
   }
 
-  /* Enhanced Grid Systems - Mobile Responsive */
+  /* Enhanced Masonry Layout - Mobile Responsive */
   .grid-masonry {
     columns: 1;
-    column-gap: 1rem;
+    column-gap: 1.5rem;
+    column-fill: balance;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .grid-masonry {
       columns: 2;
       column-gap: 2rem;
@@ -422,23 +423,63 @@
   @media (min-width: 1024px) {
     .grid-masonry {
       columns: 3;
+      column-gap: 2.5rem;
     }
   }
 
   @media (min-width: 1280px) {
     .grid-masonry {
       columns: 4;
+      column-gap: 3rem;
     }
   }
 
   .grid-masonry > * {
     break-inside: avoid;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    width: 100%;
+    transition: all 0.3s ease;
   }
 
   @media (min-width: 768px) {
     .grid-masonry > * {
       margin-bottom: 2rem;
+    }
+  }
+
+  /* Masonry Image Variants for Dynamic Sizing */
+  .masonry-item-small {
+    height: 300px;
+  }
+
+  .masonry-item-medium {
+    height: 400px;
+  }
+
+  .masonry-item-large {
+    height: 500px;
+  }
+
+  .masonry-item-extra-large {
+    height: 600px;
+  }
+
+  @media (max-width: 640px) {
+    .masonry-item-small {
+      height: 250px;
+    }
+
+    .masonry-item-medium {
+      height: 300px;
+    }
+
+    .masonry-item-large {
+      height: 350px;
+    }
+
+    .masonry-item-extra-large {
+      height: 400px;
     }
   }
 

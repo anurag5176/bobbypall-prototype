@@ -8,6 +8,8 @@ import { Menu, X, ChevronDown } from "lucide-react"
 const navigation = [
   { name: "HOME", href: "/" },
   { name: "GALLERY", href: "/gallery" },
+  { name: "E-GALLERY", href: "/egallery" },
+  { name: "DOME-GALLERY", href: "/egallery2" },
   { name: "STYLES", href: "/styles" },
   { name: "STORY", href: "/story" },
   { name: "LEGACY", href: "/legacy" },

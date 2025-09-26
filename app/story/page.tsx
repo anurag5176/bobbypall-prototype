@@ -11,11 +11,11 @@ export default function StoryPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="bg-black bg-black">
       <NavigationBar />
 
       {/* Hero Section */}
-      <section className="pt-24 pb-20 px-6">
+      <section className="pt-40 pb-20 px-6">
         <div className="max-w-4xl mx-auto">
           <div className={`transition-all duration-1000 ${isLoaded ? "slide-up" : "opacity-0"}`}>
             <h1 className="text-display font-serif text-white mb-8 leading-tight">
@@ -57,7 +57,7 @@ export default function StoryPage() {
             <div className="relative">
               <div className="image-container rounded-2xl overflow-hidden">
                 <img
-                  src="/placeholder.svg?height=700&width=600&text=Young+Bobby+with+Grandfather's+Camera"
+                  src="/Family/6.png"
                   alt="Young Bobby with his grandfather's camera"
                   className="w-full h-[500px] object-cover"
                 />
@@ -93,7 +93,7 @@ export default function StoryPage() {
             <div className="relative order-2 lg:order-1">
               <div className="image-container rounded-2xl overflow-hidden">
                 <img
-                  src="/placeholder.svg?height=600&width=700&text=Breakthrough+Moment"
+                  src="/GLAM/4.png"
                   alt="Bobby's breakthrough moment"
                   className="w-full h-[500px] object-cover"
                 />
@@ -195,7 +195,7 @@ export default function StoryPage() {
             <div className="relative">
               <div className="image-container rounded-2xl overflow-hidden">
                 <img
-                  src="/placeholder.svg?height=600&width=700&text=Bobby+at+Work+in+Field"
+                  src="/Travel/6.png"
                   alt="Bobby at work in the field"
                   className="w-full h-[500px] object-cover"
                 />
