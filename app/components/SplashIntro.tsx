@@ -33,8 +33,23 @@ export default function SplashIntro({
 
   const isMobile = useMemo(() => {
     if (typeof window === 'undefined') return false;
-    return window.innerWidth < 768;
+    return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }, []);
+
+  // Additional mobile check on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768 && show) {
+        console.log('Mobile detected during splash - stopping animation');
+        setShow(false);
+        setWebsiteVisible(true);
+        setWebsiteRendering(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [show]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

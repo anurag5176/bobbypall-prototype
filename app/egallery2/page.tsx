@@ -71,7 +71,7 @@ export default function EGallery2Page() {
 
       {/* Dome Gallery Section */}
       <section className={`pb-20 px-6 transition-all duration-500 ${isFullscreen ? "fixed inset-0 z-40 bg-black" : ""}`}>
-        <div className={`${isFullscreen ? "h-screen w-full" : "max-w-7xl mx-auto h-[80vh] min-h-[600px]"}`}>
+        <div className={`${isFullscreen ? "h-screen w-full" : "max-w-7xl mx-auto h-[80vh] min-h-[400px] md:min-h-[600px]"}`}>
           <div className={`relative ${isFullscreen ? "h-full" : "h-full rounded-2xl overflow-hidden"}`}>
             <DomeGallery
               images={[

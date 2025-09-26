@@ -144,6 +144,43 @@ export default function DomeGallery({
   openedImageBorderRadius?: string;
   grayscale?: boolean;
 }) {
+  // Mobile detection
+  const isMobile = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768;
+  }, []);
+
+  // Mobile-optimized settings
+  const mobileSettings = useMemo(() => {
+    if (!isMobile) return {};
+    
+    return {
+      fit: 0.4,
+      minRadius: 200,
+      maxRadius: 300,
+      segments: 25,
+      dragSensitivity: 35,
+      enlargeTransitionMs: 300,
+      openedImageWidth: '90vw',
+      openedImageHeight: '60vh',
+      imageBorderRadius: '12px',
+      openedImageBorderRadius: '12px'
+    };
+  }, [isMobile]);
+
+  // Apply mobile settings
+  const effectiveSettings = useMemo(() => ({
+    fit: mobileSettings.fit ?? fit,
+    minRadius: mobileSettings.minRadius ?? minRadius,
+    maxRadius: mobileSettings.maxRadius ?? maxRadius,
+    segments: mobileSettings.segments ?? segments,
+    dragSensitivity: mobileSettings.dragSensitivity ?? dragSensitivity,
+    enlargeTransitionMs: mobileSettings.enlargeTransitionMs ?? enlargeTransitionMs,
+    openedImageWidth: mobileSettings.openedImageWidth ?? openedImageWidth,
+    openedImageHeight: mobileSettings.openedImageHeight ?? openedImageHeight,
+    imageBorderRadius: mobileSettings.imageBorderRadius ?? imageBorderRadius,
+    openedImageBorderRadius: mobileSettings.openedImageBorderRadius ?? openedImageBorderRadius
+  }), [mobileSettings, fit, minRadius, maxRadius, segments, dragSensitivity, enlargeTransitionMs, openedImageWidth, openedImageHeight, imageBorderRadius, openedImageBorderRadius]);
   const rootRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   const sphereRef = useRef<HTMLDivElement>(null);
@@ -179,7 +216,7 @@ export default function DomeGallery({
     document.body.classList.remove('dg-scroll-lock');
   }, []);
 
-  const items = useMemo(() => buildItems(images, segments), [images, segments]);
+  const items = useMemo(() => buildItems(images, effectiveSettings.segments), [images, effectiveSettings.segments]);
 
   const applyTransform = (xDeg: number, yDeg: number) => {
     const el = sphereRef.current;
@@ -217,18 +254,18 @@ export default function DomeGallery({
         default:
           basis = aspect >= 1.3 ? w : minDim;
       }
-      let radius = basis * fit;
+      let radius = basis * effectiveSettings.fit;
       const heightGuard = h * 1.35;
       radius = Math.min(radius, heightGuard);
-      radius = clamp(radius, minRadius, maxRadius);
+      radius = clamp(radius, effectiveSettings.minRadius, effectiveSettings.maxRadius);
       lockedRadiusRef.current = Math.round(radius);
 
       const viewerPad = Math.max(8, Math.round(minDim * padFactor));
       root.style.setProperty('--radius', `${lockedRadiusRef.current}px`);
       root.style.setProperty('--viewer-pad', `${viewerPad}px`);
       root.style.setProperty('--overlay-blur-color', overlayBlurColor);
-      root.style.setProperty('--tile-radius', imageBorderRadius);
-      root.style.setProperty('--enlarge-radius', openedImageBorderRadius);
+      root.style.setProperty('--tile-radius', effectiveSettings.imageBorderRadius);
+      root.style.setProperty('--enlarge-radius', effectiveSettings.openedImageBorderRadius);
       root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
       applyTransform(rotationRef.current.x, rotationRef.current.y);
 
@@ -349,11 +386,11 @@ export default function DomeGallery({
         }
 
         const nextX = clamp(
-          startRotRef.current.x - dyTotal / dragSensitivity,
+          startRotRef.current.x - dyTotal / effectiveSettings.dragSensitivity,
           -maxVerticalRotationDeg,
           maxVerticalRotationDeg
         );
-        const nextY = startRotRef.current.y + dxTotal / dragSensitivity;
+        const nextY = startRotRef.current.y + dxTotal / effectiveSettings.dragSensitivity;
 
         const cur = rotationRef.current;
         if (cur.x !== nextX || cur.y !== nextY) {
@@ -382,8 +419,8 @@ export default function DomeGallery({
 
           if (!isTap && Math.abs(vx) < 0.001 && Math.abs(vy) < 0.001 && Array.isArray(movement)) {
             const [mx, my] = movement;
-            vx = (mx / dragSensitivity) * 0.02;
-            vy = (my / dragSensitivity) * 0.02;
+            vx = (mx / effectiveSettings.dragSensitivity) * 0.02;
+            vy = (my / effectiveSettings.dragSensitivity) * 0.02;
           }
 
           if (!isTap && (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005)) {
@@ -567,7 +604,7 @@ export default function DomeGallery({
     const sizeX = getDataNumber(parent, 'sizeX', 2);
     const sizeY = getDataNumber(parent, 'sizeY', 2);
 
-    const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments);
+    const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, effectiveSettings.segments);
     const parentY = normalizeAngle(parentRot.rotateY);
     const globalY = normalizeAngle(rotationRef.current.y);
     let rotY = -(parentY + globalY) % 360;
@@ -735,6 +772,50 @@ export default function DomeGallery({
       pointer-events: all !important;
     }
     
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+      .sphere-root {
+        --radius: 280px;
+        --viewer-pad: 16px;
+      }
+      
+      .stage {
+        perspective: calc(var(--radius) * 1.5);
+      }
+      
+      .sphere-item {
+        transition: transform 200ms;
+      }
+      
+      .item__image {
+        inset: 6px;
+        border-radius: 8px;
+      }
+      
+      .viewer-frame {
+        height: auto !important;
+        width: 100% !important;
+        max-width: 90vw;
+        max-height: 60vh;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .sphere-root {
+        --radius: 220px;
+        --viewer-pad: 12px;
+      }
+      
+      .stage {
+        perspective: calc(var(--radius) * 1.2);
+      }
+      
+      .item__image {
+        inset: 4px;
+        border-radius: 6px;
+      }
+    }
+    
     @media (max-aspect-ratio: 1/1) {
       .viewer-frame {
         height: auto !important;
@@ -779,11 +860,11 @@ export default function DomeGallery({
         ref={rootRef}
         className="sphere-root relative w-full h-full"
         style={{
-          ['--segments-x' as any]: segments,
-          ['--segments-y' as any]: segments,
+          ['--segments-x' as any]: effectiveSettings.segments,
+          ['--segments-y' as any]: effectiveSettings.segments,
           ['--overlay-blur-color' as any]: overlayBlurColor,
-          ['--tile-radius' as any]: imageBorderRadius,
-          ['--enlarge-radius' as any]: openedImageBorderRadius,
+          ['--tile-radius' as any]: effectiveSettings.imageBorderRadius,
+          ['--enlarge-radius' as any]: effectiveSettings.openedImageBorderRadius,
           ['--image-filter' as any]: grayscale ? 'grayscale(1)' : 'none'
         }}
       >
@@ -833,7 +914,7 @@ export default function DomeGallery({
                     }}
                     style={{
                       inset: '10px',
-                      borderRadius: `var(--tile-radius, ${imageBorderRadius})`,
+                      borderRadius: `var(--tile-radius, ${effectiveSettings.imageBorderRadius})`,
                       backfaceVisibility: 'hidden'
                     }}
                   >
