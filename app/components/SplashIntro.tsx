@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { WebsiteVisibilityProvider } from '../contexts/WebsiteVisibilityContext';
-import { shouldUseMobileOptimizations, shouldUseDesktopLayout } from '@/lib/mobile-detection';
 
 type SplashIntroProps = {
   src?: string;
@@ -33,13 +32,14 @@ export default function SplashIntro({
   }, []);
 
   const isMobile = useMemo(() => {
-    return shouldUseMobileOptimizations();
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }, []);
 
   // Additional mobile check on window resize
   useEffect(() => {
     const handleResize = () => {
-      if (shouldUseMobileOptimizations() && show) {
+      if (window.innerWidth < 768 && show) {
         console.log('Mobile detected during splash - stopping animation');
         setShow(false);
         setWebsiteVisible(true);

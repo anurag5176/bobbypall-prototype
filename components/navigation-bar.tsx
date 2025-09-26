@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X, ChevronDown } from "lucide-react"
-import { useDesktopLayout } from "@/components/responsive-layout"
 
 const navigation = [
   { name: "HOME", href: "/" },
@@ -19,7 +18,6 @@ const navigation = [
 export default function NavigationBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { isDesktop } = useDesktopLayout()
 
   useEffect(() => {
     const handleScroll = () => {
