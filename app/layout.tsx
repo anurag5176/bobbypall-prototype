@@ -5,6 +5,7 @@ import "./globals.css"
 import SplashIntro from "./components/SplashIntro"
 import PerformanceScript from "./performance-script"
 import Footer from "@/components/footer"
+import DesktopToggle from "@/components/desktop-toggle"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -59,6 +60,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <DesktopToggle />
           </div>
         </SplashIntro>
       </body>

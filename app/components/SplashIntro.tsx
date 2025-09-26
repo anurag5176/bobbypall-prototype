@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { WebsiteVisibilityProvider } from '../contexts/WebsiteVisibilityContext';
+import { shouldUseMobileOptimizations, hasRequestedDesktopSite, handleUrlParameterChange } from '@/lib/mobile-detection';
 
 type SplashIntroProps = {
   src?: string;
@@ -32,14 +33,14 @@ export default function SplashIntro({
   }, []);
 
   const isMobile = useMemo(() => {
-    if (typeof window === 'undefined') return false;
-    return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return shouldUseMobileOptimizations();
   }, []);
 
   // Additional mobile check on window resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768 && show) {
+      // Only stop animation if user hasn't requested desktop site
+      if (shouldUseMobileOptimizations() && show) {
         console.log('Mobile detected during splash - stopping animation');
         setShow(false);
         setWebsiteVisible(true);
@@ -53,6 +54,9 @@ export default function SplashIntro({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // Handle URL parameters for desktop site requests
+    handleUrlParameterChange();
 
     const params = new URLSearchParams(window.location.search);
     const force = params.has('intro');

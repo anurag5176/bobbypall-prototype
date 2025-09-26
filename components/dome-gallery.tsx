@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
+import { shouldUseMobileOptimizations } from '@/lib/mobile-detection';
 
 const DEFAULT_IMAGES = [
   {
@@ -146,8 +147,7 @@ export default function DomeGallery({
 }) {
   // Mobile detection
   const isMobile = useMemo(() => {
-    if (typeof window === 'undefined') return false;
-    return window.innerWidth < 768;
+    return shouldUseMobileOptimizations();
   }, []);
 
   // Mobile-optimized settings
@@ -355,117 +355,15 @@ export default function DomeGallery({
     [dragDampening, maxVerticalRotationDeg, stopInertia]
   );
 
-  // Mobile-specific touch handling
-  useEffect(() => {
-    const main = mainRef.current;
-    if (!main) return;
-
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchStartTime = 0;
-    let isDragging = false;
-    let hasMoved = false;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      if (focusedElRef.current) return;
-      
-      const touch = e.touches[0];
-      touchStartX = touch.clientX;
-      touchStartY = touch.clientY;
-      touchStartTime = Date.now();
-      isDragging = false;
-      hasMoved = false;
-      
-      stopInertia();
-      lockScroll();
-      
-      startRotRef.current = { ...rotationRef.current };
-      startPosRef.current = { x: touch.clientX, y: touch.clientY };
-      
-      // Check if touch is on an image
-      const target = e.target as HTMLElement;
-      const imageElement = target.closest('.item__image') as HTMLElement | null;
-      tapTargetRef.current = imageElement;
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      if (focusedElRef.current || !startPosRef.current) return;
-      
-      const touch = e.touches[0];
-      const dx = touch.clientX - touchStartX;
-      const dy = touch.clientY - touchStartY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      if (distance > 10) {
-        hasMoved = true;
-        isDragging = true;
-      }
-      
-      if (hasMoved) {
-        const dxTotal = touch.clientX - startPosRef.current.x;
-        const dyTotal = touch.clientY - startPosRef.current.y;
-        
-        const nextX = clamp(
-          startRotRef.current.x - dyTotal / effectiveSettings.dragSensitivity,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
-        );
-        const nextY = startRotRef.current.y + dxTotal / effectiveSettings.dragSensitivity;
-        
-        rotationRef.current = { x: nextX, y: nextY };
-        applyTransform(nextX, nextY);
-      }
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const touchDuration = Date.now() - touchStartTime;
-      const isQuickTap = touchDuration < 300 && !hasMoved;
-      
-      if (isQuickTap && tapTargetRef.current && !focusedElRef.current) {
-        openItemFromElement(tapTargetRef.current);
-      }
-      
-      if (hasMoved) {
-        lastDragEndAt.current = performance.now();
-      }
-      
-      isDragging = false;
-      hasMoved = false;
-      tapTargetRef.current = null;
-      startPosRef.current = null;
-      
-      unlockScroll();
-    };
-
-    // Add touch event listeners
-    main.addEventListener('touchstart', handleTouchStart, { passive: false });
-    main.addEventListener('touchmove', handleTouchMove, { passive: false });
-    main.addEventListener('touchend', handleTouchEnd, { passive: false });
-
-    return () => {
-      main.removeEventListener('touchstart', handleTouchStart);
-      main.removeEventListener('touchmove', handleTouchMove);
-      main.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [effectiveSettings.dragSensitivity, maxVerticalRotationDeg, stopInertia, lockScroll, unlockScroll]);
-
-  // Desktop mouse handling
   useGesture(
     {
       onDragStart: ({ event }) => {
         if (focusedElRef.current) return;
         stopInertia();
 
-        pointerTypeRef.current = 'mouse';
+        pointerTypeRef.current = (event as any).pointerType || 'mouse';
+        if (pointerTypeRef.current === 'touch') event.preventDefault();
+        if (pointerTypeRef.current === 'touch') lockScroll();
         draggingRef.current = true;
         cancelTapRef.current = false;
         movedRef.current = false;
@@ -476,6 +374,8 @@ export default function DomeGallery({
       },
       onDrag: ({ event, last, velocity: velArr = [0, 0], direction: dirArr = [0, 0], movement }) => {
         if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+
+        if (pointerTypeRef.current === 'touch') event.preventDefault();
 
         const dxTotal = (event as any).clientX - startPosRef.current.x;
         const dyTotal = (event as any).clientY - startPosRef.current.y;
@@ -506,7 +406,7 @@ export default function DomeGallery({
             const dx = (event as any).clientX - startPosRef.current.x;
             const dy = (event as any).clientY - startPosRef.current.y;
             const dist2 = dx * dx + dy * dy;
-            const TAP_THRESH_PX = 6;
+            const TAP_THRESH_PX = pointerTypeRef.current === 'touch' ? 10 : 6;
             if (dist2 <= TAP_THRESH_PX * TAP_THRESH_PX) {
               isTap = true;
             }
@@ -537,6 +437,7 @@ export default function DomeGallery({
           if (cancelTapRef.current) setTimeout(() => (cancelTapRef.current = false), 120);
           if (movedRef.current) lastDragEndAt.current = performance.now();
           movedRef.current = false;
+          if (pointerTypeRef.current === 'touch') unlockScroll();
         }
       }
     },
@@ -932,30 +833,6 @@ export default function DomeGallery({
       touch-action: none !important;
       overscroll-behavior: contain !important;
     }
-    
-    /* Mobile touch optimizations */
-    @media (max-width: 768px) {
-      .sphere-root {
-        touch-action: none !important;
-        -webkit-touch-callout: none !important;
-        -webkit-user-select: none !important;
-        user-select: none !important;
-      }
-      
-      .sphere-root * {
-        touch-action: none !important;
-        -webkit-touch-callout: none !important;
-        -webkit-user-select: none !important;
-        user-select: none !important;
-      }
-      
-      .item__image {
-        touch-action: manipulation !important;
-        -webkit-touch-callout: none !important;
-        -webkit-user-select: none !important;
-        user-select: none !important;
-      }
-    }
     .item__image {
       position: absolute;
       inset: 10px;
@@ -996,9 +873,7 @@ export default function DomeGallery({
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
           style={{
             touchAction: 'none',
-            WebkitUserSelect: 'none',
-            WebkitTouchCallout: 'none',
-            userSelect: 'none'
+            WebkitUserSelect: 'none'
           }}
         >
           <div className="stage">
@@ -1029,14 +904,18 @@ export default function DomeGallery({
                     role="button"
                     tabIndex={0}
                     aria-label={it.alt || 'Open image'}
+                    onClick={e => {
+                      if (performance.now() - lastDragEndAt.current < 80) return;
+                      openItemFromElement(e.currentTarget);
+                    }}
+                    onTouchEnd={e => {
+                      if (performance.now() - lastDragEndAt.current < 80) return;
+                      openItemFromElement(e.currentTarget);
+                    }}
                     style={{
                       inset: '10px',
                       borderRadius: `var(--tile-radius, ${effectiveSettings.imageBorderRadius})`,
-                      backfaceVisibility: 'hidden',
-                      touchAction: 'manipulation',
-                      WebkitTouchCallout: 'none',
-                      WebkitUserSelect: 'none',
-                      userSelect: 'none'
+                      backfaceVisibility: 'hidden'
                     }}
                   >
                     <img
