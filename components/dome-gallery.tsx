@@ -364,7 +364,7 @@ export default function DomeGallery({
         const target = event.target as HTMLElement;
         const isImageElement = target.closest('.item__image');
         
-        // If clicking/touching an image, don't start drag gesture
+        // If touching an image, don't start drag gesture
         if (isImageElement) {
           return;
         }
@@ -907,8 +907,9 @@ export default function DomeGallery({
           ref={mainRef}
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
           style={{
-            touchAction: 'none',
-            WebkitUserSelect: 'none'
+            touchAction: 'pan-x pan-y',
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none'
           }}
         >
           <div className="stage">
@@ -942,25 +943,8 @@ export default function DomeGallery({
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
-                      e.nativeEvent.stopImmediatePropagation();
-                      
-                      // Desktop-specific handling
-                      if (!isMobile) {
-                        // Reset any drag state for desktop clicks
-                        draggingRef.current = false;
-                        cancelTapRef.current = false;
-                      }
-                      
                       if (performance.now() - lastDragEndAt.current < 80) return;
                       openItemFromElement(e.currentTarget);
-                    }}
-                    onMouseDown={e => {
-                      e.stopPropagation();
-                      e.nativeEvent.stopImmediatePropagation();
-                    }}
-                    onMouseUp={e => {
-                      e.stopPropagation();
-                      e.nativeEvent.stopImmediatePropagation();
                     }}
                     onTouchStart={e => {
                       e.stopPropagation();
